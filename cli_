@@ -1,0 +1,16 @@
+<?php
+/**
+ * command-line script
+ * 
+ * call in terminal
+ * 
+ * ./cli_ <action> [arg1 arg2...]
+ * @example
+ */
+include __DIR__.'/af.php';
+af::boot(__DIR__);
+
+$cli    =   new \af\cli();
+
+array_shift($argv);
+$cli->run($argv);
