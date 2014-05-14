@@ -8,5 +8,6 @@
     }],
     "keywords" : ["php", "framework"],
     "type" : "library",
+    "minimum-stability": "dev",
     "license" : "MIT"
 }
