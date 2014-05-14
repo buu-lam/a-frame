@@ -1,0 +1,12 @@
+{
+    "name": "a-frame/a-frame",
+    "description": "PHP Framework",
+    "version": "2.0.0-dev",
+    "authors" : [ {
+        "name" : "Buu-Lâm Lê",
+        "email" : "buulam.le@gmail.com"
+    }],
+    "keywords" : ["php", "framework"],
+    "type" : "library",
+    "license" : "MIT"
+}
