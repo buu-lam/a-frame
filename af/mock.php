@@ -52,4 +52,18 @@ class mock {
     public static function methodStatic($name, $function) {
         static::$methods[$name] = $function;
     }
+    
+    
+    public static function emulateClass($class, $staticvars = []) {
+        $classMock = get_class();
+        $nodes =    explode('\\', $class);
+        $className = array_pop($nodes);
+        $namespace = implode('\\', $nodes);
+        $lineNS = $namespace ? "namespace $namespace;" : '';
+        $linesSV = '';
+        foreach($staticvars as $staticvar) {
+            $linesSV .= "public static \$$staticvar;";
+        }
+        eval("$lineNS class $className extends \\$classMock { $linesSV }");
+    }
 }
