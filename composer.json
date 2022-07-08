@@ -11,7 +11,8 @@
         "codeception/codeception": "*",
         "codeception/verify": "*",
         "codeception/module-phpbrowser": "*",
-        "codeception/module-asserts": "*"
+        "codeception/module-asserts": "*",
+        "codeception/assert-throws": "dev-master"
     },
     "require": {
         "php": ">=8.0",
