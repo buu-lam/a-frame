@@ -7,6 +7,7 @@
             "email": "840722+buu-lam@users.noreply.github.com"
         }
     ],
+    "license": "MIT",
     "require-dev": {
         "codeception/codeception": "*",
         "codeception/verify": "*",
