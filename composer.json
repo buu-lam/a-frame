@@ -1,0 +1,25 @@
+{
+    "name": "buu-lam/a-frame",
+    "description": "Set of Convenient Tools",
+    "authors": [
+        {
+            "name": "Buu-Lam LE",
+            "email": "840722+buu-lam@users.noreply.github.com"
+        }
+    ],
+    "require-dev": {
+        "codeception/codeception": "*",
+        "codeception/verify": "*",
+        "codeception/module-phpbrowser": "*",
+        "codeception/module-asserts": "*"
+    },
+    "require": {
+        "php": ">=8.0",
+        "psr/container": "* 1.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Af\\": "src/"
+        }
+    }
+}
