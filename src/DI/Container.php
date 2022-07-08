@@ -3,7 +3,6 @@
 namespace Af\DI;
 
 use Psr\Container\ContainerInterface;
-use Psr\Container\NotFoundExceptionInterface;
 
 abstract class Container implements ContainerInterface {
     
@@ -11,7 +10,7 @@ abstract class Container implements ContainerInterface {
      * 
      * @param string $id
      * @return mixed
-     * @throws NotFoundExceptionInterface
+     * @throws NotFoundException
      */
     public function get($id) {
         $this->ensureId($id);
@@ -24,7 +23,7 @@ abstract class Container implements ContainerInterface {
     
     protected function ensureId($id) : void {
         if (!$this->has($id)) {
-            throw new NotFoundExceptionInterface;
+            throw new NotFoundException("service '$id' not found.");
         }
     }
 }
