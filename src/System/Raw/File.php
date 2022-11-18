@@ -1,6 +1,6 @@
 <?php
 
-namespace Af\System;
+namespace Af\System\Raw;
 
 class File {
     /**
