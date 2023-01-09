@@ -8,7 +8,7 @@ class Session {
         return session_start($options);
     }
 
-    public function id(?string $id = null): string|false {
+    public function id(?string $id = null) {
         return session_id($id);
     }
 
