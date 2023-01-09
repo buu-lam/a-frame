@@ -4,8 +4,7 @@ namespace Af\Request;
 
 class Request implements \ArrayAccess, \Iterator {
 
-    /** @var boolean */
-    protected $settable = false;
+    protected bool $settable = false;
 
     /** @var hash|of|mixed */
     protected $value;
