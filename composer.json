@@ -13,15 +13,19 @@
         "codeception/verify": "*",
         "codeception/module-phpbrowser": "*",
         "codeception/module-asserts": "*",
-        "codeception/assert-throws": "dev-master"
+        "codeception/assert-throws": "dev-master",
+        "phpspec/prophecy-phpunit": "dev-master"
     },
     "require": {
-        "php": ">=8.0",
+        "php": ">=7.4",
         "psr/container": "*"
     },
     "autoload": {
         "psr-4": {
             "Af\\": "src/"
-        }
+        },
+        "files": [
+            "functions.php"
+        ]
     }
 }
