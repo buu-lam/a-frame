@@ -49,4 +49,68 @@ class Variable {
         $this->value = $oldValue;
         return $cloned;
     }
+    
+    public function isA($class, $allow_string = false) : bool {
+        return is_a($this->value, $class, $allow_string);
+    }    
+
+    public function isCallable() : bool {
+        return is_callable($this->value);
+    }
+
+    public function isCountable() : bool {
+        return is_countable($this->value);
+    }
+ 
+    public function isIterable() : bool {
+        return is_iterable($this->value);
+    }
+    
+    public function isNull() : bool {
+        return is_null($this->value);
+    }
+        
+    public function isNumeric() : bool {
+        return is_numeric($this->value);
+    }
+    
+    public function isSet() : bool {
+        return isset($this->value);
+    }
+
+    public function isString() : bool {
+        return is_string($this->value);
+    }
+     
+    public function isTraversable() : bool {
+        return is_traversable($this->value);
+    }
+    
+    public function isEqualTo($value) : bool {
+        return $this->value == $value;
+    }
+    
+    public function isIdenticalTo($value) : bool {
+        return $this->value === $value;
+    }
+    
+    public function isLte($value) : bool {
+        return $this->value <= $value;
+    }
+    
+    public function isGte($value) : bool {
+        return $this->value >= $value;
+    }
+    
+    public function isGt($value) : bool {
+        return $this->value > $value;
+    }
+    
+    public function isLt($value) : bool {
+        return $this->value < $value;
+    }
+    
+    public function starship($value) : int {
+        return $this->value <=> $value;
+    }
 }
