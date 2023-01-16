@@ -24,7 +24,7 @@ namespace Af {
         } else if (is_numeric($value)) {
             return new Type\Num($value);
         } else {
-            return new Af\Type\Variable($value);
+            return new Type\Variable($value);
         }
     }
 
