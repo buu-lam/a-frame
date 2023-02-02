@@ -1,9 +1,13 @@
 <?php
 
 namespace Af\Request;
+use \Codeception\AssertThrows;
+use \Prophecy\PhpUnit\ProphecyTrait;
 
 class SessionTest extends \Codeception\Test\Unit {
 
+    use ProphecyTrait;
+    use AssertThrows;
     /**
      * @var \UnitTester
      */
@@ -24,4 +28,30 @@ class SessionTest extends \Codeception\Test\Unit {
         expect($session->test)->toEqual('ok');
     }
 
+    public function testId() {
+        $raw = $this->prophesize(\Af\System\Raw\Session::class);
+        $raw->start()->willReturn(true);
+        $raw->id()->willReturn('ok');
+        
+        $session = new Session;
+        $session->initWithRaw($raw->reveal());
+        expect($session->id())->toEqual('ok');
+    }
+    
+    public function testEnsure() {
+
+        $raw = $this->prophesize(\Af\System\Raw\Session::class);
+        $raw->start()->willReturn(true);
+        $raw->id()->willReturn('ensure-does-not-throw-exception');
+        
+        $session = new Session;
+        $session->initWithRaw($raw->reveal());
+        $session->ensure();
+        
+         
+        $this->assertThrows(Exception::class, function() {
+            $session = new Session;
+            $session->ensure();
+        });
+    }
 }
