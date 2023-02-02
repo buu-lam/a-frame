@@ -2,7 +2,7 @@
 
 namespace Af\Type;
 
-class Arr extends Variable {
+class Arr extends Variable implements \Countable {
 
     protected $value = [];
 
@@ -25,7 +25,7 @@ class Arr extends Variable {
     }
 
     public function join($glue) {
-        return $this->implode($glue);
+        return $this->implode("$glue");
     }
 
     public function keyExists($key) {
@@ -70,4 +70,18 @@ class Arr extends Variable {
         return $this->cloned(array_values($this->value));
     }
 
+    public function keys() {
+        return $this->cloned(array_keys($this->value));
+    }
+    
+    public function combine($values) {
+        return $this->cloned(array_combine(
+            $this->value, 
+            $values instanceof Variable ? $values->get() : $values
+        ));
+    }
+    
+    public function count() : int {
+        return count($this->value);
+    }
 }
