@@ -81,36 +81,40 @@ class Variable {
     public function isString() : bool {
         return is_string($this->value);
     }
-     
-    public function isTraversable() : bool {
-        return is_traversable($this->value);
-    }
     
     public function isEqualTo($value) : bool {
-        return $this->value == $value;
+        return $this->value == ($value instanceof Variable ? $value->get() : $value);
     }
     
     public function isIdenticalTo($value) : bool {
-        return $this->value === $value;
+        return $this->value === ($value instanceof Variable ? $value->get() : $value);
     }
     
     public function isLte($value) : bool {
-        return $this->value <= $value;
+        return $this->value <= ($value instanceof Variable ? $value->get() : $value);
     }
     
     public function isGte($value) : bool {
-        return $this->value >= $value;
+        return $this->value >= ($value instanceof Variable ? $value->get() : $value);
     }
     
     public function isGt($value) : bool {
-        return $this->value > $value;
+        return $this->value > ($value instanceof Variable ? $value->get() : $value);
     }
     
     public function isLt($value) : bool {
-        return $this->value < $value;
+        return $this->value < ($value instanceof Variable ? $value->get() : $value);
     }
     
     public function starship($value) : int {
-        return $this->value <=> $value;
+        return $this->value <=> ($value instanceof Variable ? $value->get() : $value);
+    }
+    
+    public function jsonEncode(int $flags = 0, int $depth = 512) : string {
+        return json_encode($this->value, $flags, $depth);
+    }
+    
+    public function jsonEncodePretty(int $flags = 0, int $depth = 512) : string {
+        return $this->jsonEncode(JSON_PRETTY_PRINT | $flags, $depth);
     }
 }
