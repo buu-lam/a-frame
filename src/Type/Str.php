@@ -104,4 +104,7 @@ class Str extends Variable {
         return $this->value;
     }
 
+    public function jsonDecode(bool $assoc = false, int $depth = 512, int $options = 0) {
+        return json_decode($this->value, $assoc, $depth, $options);
+    }
 }

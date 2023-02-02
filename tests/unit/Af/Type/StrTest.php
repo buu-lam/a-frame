@@ -57,4 +57,10 @@ class StrTest extends \Codeception\Test\Unit {
         $str = new Str('yes');
         expect("$str")->toEqual('yes');
     }
+    
+    public function testJsonDecode() {
+        expect((new Str('1245'))->jsonDecode())->toEqual(1245);
+        expect((new Str('{"foo": "bar"}'))->jsonDecode())->baseObjectToHaveAttribute('foo');
+        expect((new Str('{"foo": "bar"}'))->jsonDecode(true))->toBeArray();
+    }
 }
