@@ -4,7 +4,7 @@ namespace Af\Request;
 
 class Cookie extends Request {
     
-    protected $settable = false;
+    protected bool $settable = false;
     protected $settings = [
         'expires' => 0,
         'path' => '',
