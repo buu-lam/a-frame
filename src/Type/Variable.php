@@ -117,4 +117,17 @@ class Variable {
     public function jsonEncodePretty(int $flags = 0, int $depth = 512) : string {
         return $this->jsonEncode(JSON_PRETTY_PRINT | $flags, $depth);
     }
+    
+    public function isIn($value, bool $strict = false) {
+        if ($value instanceof Variable) {
+            $value = $value->get();
+        }
+        if (is_array($value)) {
+            return in_array($this->value, $value, $strict);
+        }
+        if (is_string($value) && (is_string($this->value) || is_numeric($this->value))) {
+            return str_contains($value, "$this->value");
+        }
+        throw new Exception('values are not compatible');
+    }
 }
