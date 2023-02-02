@@ -2,8 +2,11 @@
 
 namespace Af\Type;
 
+use \Codeception\AssertThrows;
+
 class StrTest extends \Codeception\Test\Unit {
 
+    use AssertThrows;
 
     public function testValid() {
         $str = new Str();
@@ -13,6 +16,12 @@ class StrTest extends \Codeception\Test\Unit {
         expect($str->isValid([1, 2]))->toBeFalse();
         expect($str->isValid(new \stdClass()))->toBeFalse();
         expect($str->isValid(new Str()))->toBeTrue();
+    }
+    
+    public function testEnsureIsValid() {
+        $this->assertThrows(Exception::class, function() {
+            new Str([]);
+        });
     }
     
     public function testLcase() {

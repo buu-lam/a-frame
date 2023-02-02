@@ -105,4 +105,20 @@ class ArrTest extends \Codeception\Test\Unit {
         $arr = new Arr([0 => 2, 1 => 4, 2 => 1, 4 => 3, 6 => 5]);
         expect($arr->values()->get())->toBe([2, 4, 1, 3, 5]);
     }
+    
+    public function testKeys() {
+        $arr = new Arr([0 => 2, 1 => 4, 2 => 1, 4 => 3, 6 => 5]);
+        expect($arr->keys()->get())->toBe([0, 1, 2, 4, 6]);
+    }
+    
+    public function testCombine() {
+        expect((new Arr(['foo', 'bar']))->combine([0, 1])->get())->toBe(['foo' => 0, 'bar' => 1]);
+        expect((new Arr(['foo', 'bar']))->combine((new Arr([0, 1])))->get())->toBe(['foo' => 0, 'bar' => 1]);
+    }
+    
+    public function testCount() {
+        $arr = new Arr([0 => 2, 1 => 4, 2 => 1, 4 => 3, 6 => 5]);
+        expect($arr->count())->toBe(5);
+        expect(count($arr))->toBe(5);
+    }
 }

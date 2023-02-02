@@ -2,10 +2,12 @@
 
 namespace Af\Type;
 
+use \Codeception\AssertThrows;
 use \Prophecy\PhpUnit\ProphecyTrait;
 
 class VariableTest extends \Codeception\Test\Unit {
 
+    use AssertThrows;
     use ProphecyTrait;
     
     public function testGet() {
@@ -151,5 +153,20 @@ class VariableTest extends \Codeception\Test\Unit {
     public function testJsonEncodePretty() {
         expect((new Variable('abc'))->jsonEncode())->toBe('"abc"');        
         expect((new Variable((object) ['foo' => 'bar']))->jsonEncodePretty())->toBe("{\n    \"foo\": \"bar\"\n}");
+    }
+    
+    public function testIsIn() {
+        expect((new Variable(1))->isIn([1, 2]))->toBeTrue();
+        expect((new Variable(1))->isIn(['1', 2]))->toBeTrue();
+        expect((new Variable(1))->isIn(['1', 2], true))->toBeFalse();
+        expect((new Variable(1))->isIn((new Variable([1, 2]))))->toBeTrue();
+        expect((new Variable('a'))->isIn('bab'))->toBeTrue();
+        expect((new Variable(1))->isIn('123'))->toBeTrue();
+    }
+    
+    public function testIsIn_Exception() {
+        $this->assertThrows(Exception::class, function() {
+            (new Variable(1))->isIn(133);
+        });        
     }
 }
