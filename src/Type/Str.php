@@ -2,8 +2,12 @@
 
 namespace Af\Type;
 
+use Af\Type\Format\Padding;
+
 class Str extends Variable {
 
+    use Padding;
+    
     protected $value = '';
 
     public function isValid($value): bool {

@@ -72,4 +72,32 @@ class StrTest extends \Codeception\Test\Unit {
         expect((new Str('{"foo": "bar"}'))->jsonDecode())->baseObjectToHaveAttribute('foo');
         expect((new Str('{"foo": "bar"}'))->jsonDecode(true))->toBeArray();
     }
+    
+    
+    public function testPad() {
+        expect((new Str('abc'))->pad(5)->get())->toEqual('abc  ');
+        expect((new Str('abc'))->pad(6, '#')->get())->toEqual('abc###');
+        expect((new Str('abc'))->pad(7, '#', STR_PAD_BOTH)->get())->toEqual('##abc##');
+    }
+    
+    public function testLPad() {
+        expect((new Str('abc'))->lPad(5)->get())->toEqual('  abc');
+        expect((new Str('abc'))->lPad(6, '#')->get())->toEqual('###abc');
+    }
+    
+    public function testBPad() {
+        expect((new Str('abc'))->bPad(5)->get())->toEqual(' abc ');
+        expect((new Str('abc'))->bPad(6, '#')->get())->toEqual('#abc##');
+    }
+    
+    public function testRPad() {
+        expect((new Str('abc'))->rPad(3)->get())->toEqual('abc');
+        expect((new Str('abc'))->rPad(5)->get())->toEqual('abc  ');
+        expect((new Str('abc'))->rPad(6, '#')->get())->toEqual('abc###');
+    }
+    
+    public function testNumPad() {
+        expect((new Str(159))->numPad(3)->get())->toEqual('159');
+        expect((new Str('753'))->numPad(5)->get())->toEqual('00753');
+    }
 }

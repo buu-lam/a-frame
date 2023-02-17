@@ -130,4 +130,8 @@ class Variable {
         }
         throw new Exception('values are not compatible');
     }
+    
+    public function str(): Str {
+        return new Str($this->value);
+    }
 }
