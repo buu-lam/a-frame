@@ -110,11 +110,11 @@ class Variable {
         return $this->value <=> ($value instanceof Variable ? $value->get() : $value);
     }
     
-    public function jsonEncode(int $flags = 0, int $depth = 512) : string {
+    public function jsonEncode(int $flags = 0, int $depth = 512) : Str {
         return new Str(json_encode($this->value, $flags, $depth));
     }
     
-    public function jsonEncodePretty(int $flags = 0, int $depth = 512) : string {
+    public function jsonEncodePretty(int $flags = 0, int $depth = 512) : Str {
         return $this->jsonEncode(JSON_PRETTY_PRINT | $flags, $depth);
     }
     
