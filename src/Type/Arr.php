@@ -11,7 +11,7 @@ class Arr extends Variable implements \Countable {
             return $this->value[$key];
         }, $keys);
     }
-
+    
     public function filter($callback = null, $flag = 0) {
         return $this->cloned(array_filter($this->value, $callback, $flag));
     }
@@ -21,14 +21,22 @@ class Arr extends Variable implements \Countable {
     }
 
     public function inArray($item, bool $strict = false) {
-        return in_array($item, $this->value, $strict);
+        return $this->hasValue($item, $strict);
     }
 
+    public function hasValue($item, bool $strict = false) {
+        return in_array($item, $this->value, $strict);
+    }
+    
     public function join($glue) {
         return $this->implode("$glue");
     }
 
     public function keyExists($key) {
+        return $this->hasKey($key);
+    }
+    
+    public function hasKey($key) {
         return array_key_exists($key, $this->value);
     }
 
@@ -83,5 +91,29 @@ class Arr extends Variable implements \Countable {
     
     public function count() : int {
         return count($this->value);
+    }
+    
+    public function ensureHasKeys(...$keys) {
+        foreach ($keys as $key) {
+            if (!$this->hasKey($key)) {
+                throw new Exception("no key '$key' found");
+            }
+        }
+    }
+    
+    public function ensureHasValues(...$values) {
+        foreach ($values as $value) {
+            if (!$this->hasValue($value)) {
+                throw new Exception("no value '$value' found");
+            }
+        }
+    }
+
+    public function ensureHasStrictValues(...$values) {
+        foreach ($values as $value) {
+            if (!$this->hasValue($value, true)) {
+                throw new Exception("no value '$value' found");
+            }
+        }
     }
 }
