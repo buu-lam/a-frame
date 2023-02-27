@@ -111,7 +111,7 @@ class Variable {
     }
     
     public function jsonEncode(int $flags = 0, int $depth = 512) : string {
-        return json_encode($this->value, $flags, $depth);
+        return $this->str(json_encode($this->value, $flags, $depth));
     }
     
     public function jsonEncodePretty(int $flags = 0, int $depth = 512) : string {
@@ -132,6 +132,10 @@ class Variable {
     }
     
     public function str(): Str {
-        return new Str($this->value);
+        return new Str("$this->value");
+    }
+    
+    public function arr(): Arr {
+        return new Arr((array) $this->value);
     }
 }
