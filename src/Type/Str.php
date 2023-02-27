@@ -2,11 +2,10 @@
 
 namespace Af\Type;
 
-use Af\Type\Format\Padding;
-
 class Str extends Variable {
 
-    use Padding;
+    use Format\Base64;
+    use Format\Padding;
     
     protected $value = '';
 
