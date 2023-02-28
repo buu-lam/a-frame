@@ -5,6 +5,7 @@ namespace Af\Type;
 class Str extends Variable {
 
     use Format\Base64;
+    use Format\File;
     use Format\Padding;
     
     protected $value = '';
