@@ -2,6 +2,8 @@
 
 namespace Af\Type\Format;
 
+use \Af\Type\Str;
+
 trait File {
 
     public function isAFile(): bool {
