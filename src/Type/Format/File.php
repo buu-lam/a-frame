@@ -25,4 +25,18 @@ trait File {
         file_put_contents($this->value, $content, FILE_APPEND);
         return $this;
     }
+    
+    public function mTime() {
+        return filemtime($this->value);
+    }
+    
+    public function writeToFile($path) {
+        file_put_contents($path, $this->value);
+        return $this;
+    }
+    
+    public function appendToFile($path) {
+        file_put_contents($path, $this->value, FILE_APPEND);
+        return $this;
+    }
 }
