@@ -7,6 +7,7 @@ class Str extends Variable {
     use Format\Base64;
     use Format\File;
     use Format\Padding;
+    use Format\Trim;
     
     protected $value = '';
 
