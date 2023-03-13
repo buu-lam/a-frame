@@ -24,7 +24,7 @@ class VariableTest extends \Codeception\Test\Unit {
      * @covers Variable::ensureIsValid
      */
     public function testEnsureIsValid() {
-        
+        $this->markTestSkipped('not testable');
     }
     
     public function testCloned() {

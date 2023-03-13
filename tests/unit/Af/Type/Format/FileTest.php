@@ -23,7 +23,7 @@ class FileTest extends \Codeception\Test\Unit {
         expect($path)->fileToBeEqual(__FILE__);
     }
     
-    public function appendContent($content) {
+    public function testAppendContent() {
         $path = tempnam(sys_get_temp_dir(), 'a-frame-unit-test-format-file');
         (new Str($path))
             ->appendContent("test ok\n")
@@ -32,27 +32,30 @@ class FileTest extends \Codeception\Test\Unit {
         expect(file_get_contents($path))->toBe("test ok\nvery ok\n");
     }
     
-    public function mTime() {
-        return filemtime($this->value);
-    }
-    
-    public function writeToFile($path) {
-        file_put_contents($path, $this->value);
+    public function testWriteToFile() {
+        $path = tempnam(sys_get_temp_dir(), 'a-frame-unit-test-format-file');
+        (new Str('test ok'))->writeToFile($path);
+        expect(file_get_contents($path))->toBe('test ok');
         return $this;
     }
     
-    public function appendToFile($path) {
-        file_put_contents($path, $this->value, FILE_APPEND);
+    public function testAppendToFile() {
+         $path = tempnam(sys_get_temp_dir(), 'a-frame-unit-test-format-file');
+        (new Str("test ok\n"))->appendToFile($path);
+        (new Str("very ok\n"))->appendToFile($path);
+        expect(file_get_contents($path))->toBe("test ok\nvery ok\n");
         return $this;
     }
     
-    public function chmod(int $permissions) {
-        chmod($this->value, $permissions);
-        return $this;
+    public function testMTime() {
+        $this->markTestIncomplete();
     }
     
-    public function chown($user) {
-        chown($this->value, $user);
-        return $this;
+    public function testChmod() {
+        $this->markTestIncomplete();
+    }
+    
+    public function testChown() {
+        $this->markTestIncomplete();
     }
 }
