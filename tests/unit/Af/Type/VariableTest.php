@@ -19,6 +19,14 @@ class VariableTest extends \Codeception\Test\Unit {
         expect((new Variable)->set(3)->get())->toEqual(3);
     }
     
+    /**
+     * @skip not applicable
+     * @covers Variable::ensureIsValid
+     */
+    public function testEnsureIsValid() {
+        
+    }
+    
     public function testCloned() {
         $var = new Variable;
         $clone = $var->cloned(3);
@@ -146,13 +154,12 @@ class VariableTest extends \Codeception\Test\Unit {
     }
     
     public function testJsonEncode() {
-        expect((new Variable('abc'))->jsonEncode())->toBe('"abc"');        
-        expect((new Variable((object) ['foo' => 'bar']))->jsonEncode(JSON_PRETTY_PRINT))->toBe("{\n    \"foo\": \"bar\"\n}");
+        expect((new Variable('abc'))->jsonEncode()->get())->toBe('"abc"');        
+        expect((new Variable((object) ['foo' => 'bar']))->jsonEncode(JSON_PRETTY_PRINT)->get())->toBe("{\n    \"foo\": \"bar\"\n}");
     }
     
-    public function testJsonEncodePretty() {
-        expect((new Variable('abc'))->jsonEncode())->toBe('"abc"');        
-        expect((new Variable((object) ['foo' => 'bar']))->jsonEncodePretty())->toBe("{\n    \"foo\": \"bar\"\n}");
+    public function testJsonEncodePretty() {      
+        expect((new Variable((object) ['foo' => 'bar']))->jsonEncodePretty()->get())->toBe("{\n    \"foo\": \"bar\"\n}");
     }
     
     public function testIsIn() {
@@ -168,5 +175,13 @@ class VariableTest extends \Codeception\Test\Unit {
         $this->assertThrows(Exception::class, function() {
             (new Variable(1))->isIn(133);
         });        
+    }
+    
+    public function testStr() {
+        expect((new Variable(123))->str()->get())->toBeString();
+    }
+    
+    public function testArr() {
+        expect((new Variable(123))->arr()->get())->toBeArray();
     }
 }

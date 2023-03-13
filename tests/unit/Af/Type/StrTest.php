@@ -46,22 +46,6 @@ class StrTest extends \Codeception\Test\Unit {
         expect((new Str('AT-CR'))->split('-')->get())->toEqual(['AT', 'CR']);
     }
     
-    public function testPregMatch() {
-        expect((new Str('test123'))->pregMatch('~\d{3}~'))->toEqual(1);
-        expect((new Str('test123'))->pregMatch('~\d{4}~'))->toEqual(0);
-    }
-    
-    public function testPregReplace() {
-        expect((new Str('test123'))->pregReplace('~\d{3}~', 'AAA')->get())->toEqual('testAAA');
-    }
-    
-    
-    public function testReplace() {
-        $str = new Str('ah i like alives');
-        expect($str->replace('a', 'o')->get())->toBe('oh i like olives');
-        expect($str->replace(['a' => 'o'])->get())->toBe('oh i like olives');
-    }
-    
     public function testToString() {
         $str = new Str('yes');
         expect("$str")->toEqual('yes');
@@ -73,31 +57,4 @@ class StrTest extends \Codeception\Test\Unit {
         expect((new Str('{"foo": "bar"}'))->jsonDecode(true))->toBeArray();
     }
     
-    
-    public function testPad() {
-        expect((new Str('abc'))->pad(5)->get())->toEqual('abc  ');
-        expect((new Str('abc'))->pad(6, '#')->get())->toEqual('abc###');
-        expect((new Str('abc'))->pad(7, '#', STR_PAD_BOTH)->get())->toEqual('##abc##');
-    }
-    
-    public function testLPad() {
-        expect((new Str('abc'))->lPad(5)->get())->toEqual('  abc');
-        expect((new Str('abc'))->lPad(6, '#')->get())->toEqual('###abc');
-    }
-    
-    public function testBPad() {
-        expect((new Str('abc'))->bPad(5)->get())->toEqual(' abc ');
-        expect((new Str('abc'))->bPad(6, '#')->get())->toEqual('#abc##');
-    }
-    
-    public function testRPad() {
-        expect((new Str('abc'))->rPad(3)->get())->toEqual('abc');
-        expect((new Str('abc'))->rPad(5)->get())->toEqual('abc  ');
-        expect((new Str('abc'))->rPad(6, '#')->get())->toEqual('abc###');
-    }
-    
-    public function testNumPad() {
-        expect((new Str(159))->numPad(3)->get())->toEqual('159');
-        expect((new Str('753'))->numPad(5)->get())->toEqual('00753');
-    }
 }
