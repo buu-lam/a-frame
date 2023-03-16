@@ -138,4 +138,9 @@ class Variable {
     public function arr(): Arr {
         return new Arr((array) $this->value);
     }
+    
+    public function printR(bool $return = false) {
+        $out = print_r($this->value, $return);
+        return $return ? $out : $this;
+    }
 }

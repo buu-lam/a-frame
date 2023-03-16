@@ -184,4 +184,12 @@ class VariableTest extends \Codeception\Test\Unit {
     public function testArr() {
         expect((new Variable(123))->arr()->get())->toBeArray();
     }
+    
+    public function testPrintR() {
+        expect((new Variable(3))->printR(true))->toBe('3');
+        expect((new Variable([1, 2]))->printR(true))->toBe("Array\n(\n    [0] => 1\n    [1] => 2\n)\n");
+        ob_start();
+        (new Variable((object)['a' => 3, 'b' => 4]))->printR();
+        expect(ob_get_clean())->toBe("stdClass Object\n(\n    [a] => 3\n    [b] => 4\n)\n");
+    }
 }
