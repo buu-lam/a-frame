@@ -121,4 +121,23 @@ class ArrTest extends \Codeception\Test\Unit {
         expect($arr->count())->toBe(5);
         expect(count($arr))->toBe(5);
     }
+    
+    public function testMerge() {
+        $arr1 = new Arr([1, 2, 3]);
+        $arr2 = $arr1->merge([4, 5], [6, 7]);
+        expect($arr2->get())->toBe([1, 2, 3, 4, 5, 6, 7]);
+    }
+    
+    public function testMergeRecursive() {
+        $arr1 = new Arr(['a' => 1, 'b' => 2, 'c' => ['d' => 3]]);
+        $arr2 = $arr1->mergeRecursive(['c' => ['e' => 4]]);
+        expect($arr2->get())->toBe([
+            'a' => 1, 
+            'b' => 2, 
+            'c' => [
+                'd' => 3,
+                'e' => 4
+            ]])
+        ;
+    }
 }

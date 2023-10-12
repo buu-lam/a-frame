@@ -116,4 +116,23 @@ class Arr extends Variable implements \Countable {
             }
         }
     }
+    
+    public function merge(... $arrays) {        
+        return $this->callWithArrays('array_merge', $arrays);
+    }
+    
+    public function mergeRecursive(... $arrays) {
+        return $this->callWithArrays('array_merge_recursive', $arrays);
+    }
+    
+    public function replace(... $arrays) {
+        return $this->callWithArrays('array_replace', $arrays);
+    }
+    
+    private function callWithArrays($callback, $arrs) {
+        $arrays = $arrs;
+        array_unshift($arrays, $this->value);        
+        $final = call_user_func_array($callback, $arrays);
+        return $this->cloned($final);
+    }
 }

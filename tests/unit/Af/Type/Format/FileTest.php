@@ -58,4 +58,38 @@ class FileTest extends \Codeception\Test\Unit {
     public function testChown() {
         $this->markTestIncomplete();
     }
+    
+    public function testDirname() {
+        expect((new Str('/nested/dir/file.txt'))->dirname()->get())->toBe('/nested/dir');
+        expect((new Str('/nested/dir/file.txt'))->dirname(2)->get())->toBe('/nested');
+    }
+    
+    public function testBasename() {
+        expect((new Str('/nested/dir/file.txt'))->basename()->get())->toBe('file.txt');
+        expect((new Str('/nested/dir/file.txt'))->basename('.txt')->get())->toBe('file');
+    }
+    
+    public function testMkdir() {
+        $tmp = sys_get_temp_dir();
+        $now = date('Y-m-d-H-i-s');
+        $uniqid = uniqid($now);
+        $dir1 = new Str("$tmp/a-frame-utests-$uniqid");
+        $dir1->mkdir();
+        expect("$dir1")->directoryToExist();
+        
+        $dir2 = new Str("$tmp/a-frame-utests-$uniqid-2/nested");
+        $dir2->mkdir(0775, true);        
+        expect("$dir2")->directoryToExist();
+    }
+    
+    public function testCopyTo() {
+        $tmp = sys_get_temp_dir();
+        $now = date('Y-m-d-H-i-s');
+        $uniqid = uniqid($now);
+        $path = "$tmp/a-frame-utests-$uniqid.txt";
+        $pathTo = "$tmp/a-frame-utests-$uniqid-2.txt";
+        file_put_contents($path, 'ok');
+        (new Str($path))->copyTo($pathTo);
+        expect(file_get_contents($pathTo))->toBe('ok');
+    }
 }
