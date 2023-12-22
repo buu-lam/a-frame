@@ -28,6 +28,14 @@ trait Search {
         );
     }
 
+    public function switchExtension($extension) {
+        return $this->cloned(
+                str_contains($this->value, '.') ?
+                    preg_replace('~\.([^.]+)$~', ".$extension", $this->value) :
+                    "$this->value.$extension"
+        );
+    }
+    
     public function contains(string $string): bool {
         return str_contains($this->value, $string);
     }

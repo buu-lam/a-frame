@@ -22,6 +22,13 @@ class SearchTest extends \Codeception\Test\Unit {
         expect($str->replace(['a' => 'o'])->get())->toBe('oh i like olives');
     }
     
+    public function testSwitchExtension() {
+        $withExt = new Str('file.txt');
+        expect($str->switchExtension('php')->get())->toBe('file.php');
+        $noExt = new Str('file');
+        expect($noExt->switchExtension('php')->get())->toBe('file.php');
+    }
+    
     public function testContains() {
         $str = new Str('ah i like alives');
         expect($str->contains('like'))->toBeTrue();
