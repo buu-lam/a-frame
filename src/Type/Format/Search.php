@@ -28,7 +28,7 @@ trait Search {
         );
     }
 
-    public function switchExtension($extension) {
+    public function withExtension($extension) {
         return $this->cloned(
                 str_contains($this->value, '.') ?
                     preg_replace('~\.([^.]+)$~', ".$extension", $this->value) :

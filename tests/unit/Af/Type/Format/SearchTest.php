@@ -22,11 +22,11 @@ class SearchTest extends \Codeception\Test\Unit {
         expect($str->replace(['a' => 'o'])->get())->toBe('oh i like olives');
     }
     
-    public function testSwitchExtension() {
+    public function testWithExtension() {
         $withExt = new Str('file.txt');
-        expect($str->switchExtension('php')->get())->toBe('file.php');
+        expect($str->withExtension('php')->get())->toBe('file.php');
         $noExt = new Str('file');
-        expect($noExt->switchExtension('php')->get())->toBe('file.php');
+        expect($noExt->withExtension('php')->get())->toBe('file.php');
     }
     
     public function testContains() {
