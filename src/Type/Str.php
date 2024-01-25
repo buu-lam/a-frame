@@ -5,12 +5,11 @@ namespace Af\Type;
 class Str extends Variable {
 
     use Format\Base64;
+    use Format\Date;
     use Format\File;
     use Format\Padding;
     use Format\Search;
     use Format\Trim;
-    
-    protected $value = '';
 
     public function isValid($value): bool {
         if (is_string($value)) {
