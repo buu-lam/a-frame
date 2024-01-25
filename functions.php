@@ -24,7 +24,7 @@ namespace Af {
      * @param mixed $value
      * @return \Af\Type\Variable|\Af\Type\Str|\Af\Type\Arr|\Af\Type\Num
      */
-    function _($value) {
+    function _($value = null) {
         if (is_string($value)) {
             return new Type\Str($value);
         } else if (is_array($value)) {
