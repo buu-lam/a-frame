@@ -2,10 +2,35 @@
 
 namespace Af\Type;
 
-class Arr extends Variable implements \Countable {
+class Arr extends Variable implements \Countable, \ArrayAccess, \IteratorAggregate {
 
     protected $value = [];
 
+    public function offsetExists(mixed $offset): bool {
+        return array_key_exists($offset, $this->value);
+    }
+    
+    public function offsetGet(mixed $offset): mixed {
+        return $this->value[$offset] ?? null;
+    }
+    
+    public function offsetSet(mixed $offset, mixed $value): void {
+        if (is_null($offset)) {
+            $this->value[] = $value;
+        } else {
+            $this->value[$offset] = $value;
+        }
+    }
+    
+    public function offsetUnset(mixed $offset): void {
+        unset($this->value[$offset]);
+    }
+    
+    public function getIterator(): \Traversable {
+        return new \ArrayIterator($this->value);
+    }
+    
+    
     public function extract(...$keys) {
         return array_map(function ($key) {
             return $this->value[$key];

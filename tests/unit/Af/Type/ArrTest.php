@@ -4,6 +4,34 @@ namespace Af\Type;
 
 class ArrTest extends \Codeception\Test\Unit {
     
+    public function testOffset() {
+        $array = ['a', 'b', 'c'];
+        $arr = new Arr($array);
+        expect($arr[1])->toEqual('b');
+        $arr[1] = 'z';
+        expect($arr[1])->toEqual('z');
+        $arr[] = 'd';
+        expect($arr[3])->toEqual('d');
+        unset($arr[3]);
+        expect($arr[3])->toBeNull();
+    }
+    
+    public function testGetIterator() {
+        $array = ['a', 'b', 'c'];
+        $arr = new Arr($array);
+        $keys = '';
+        $values = '';
+        foreach($arr as $key => $value) {
+            $keys .= $key;
+            $values .= $value;
+            expect($value)->toEqual(current($array));
+            expect($key)->toEqual(key($array));
+            next($array);
+        }
+        expect($keys)->toEqual('012');
+        expect($values)->toEqual('abc');
+    }
+    
     public function testExtract() {
         $arr = new Arr(['a' => 1, 'b' => 2]);
         list($b, $a) = $arr->extract('b', 'a');
