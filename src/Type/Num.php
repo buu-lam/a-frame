@@ -17,5 +17,8 @@ class Num extends Variable {
                 round($this->value, $precision, $mode)
         );
     }
-
+    
+    public function numPad($length) {
+        return $this->str()->numPad($length);
+    }
 }
