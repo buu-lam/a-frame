@@ -165,7 +165,7 @@ class Arr extends Variable implements \Countable, \ArrayAccess, \IteratorAggrega
         return min($this->value);
     }
     
-     public function max() : mixed {
+    public function max() : mixed {
         return max($this->value);
     }
 }
