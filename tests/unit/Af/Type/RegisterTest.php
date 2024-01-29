@@ -1,19 +1,19 @@
 <?php
 
 namespace Af\Type;
+use function Af\_;
 
-class NumTest extends \Codeception\Test\Unit {
+class RegisterTest extends \Codeception\Test\Unit {
 
     
-    public function testRound() {
-        expect((new Num(3.6))->round()->get())
-            ->toEqual(4);
+    public function testRegisterCall() {
+        _()->register('concat123', function($var) {
+           return $this->cloned($this->value . $var);
+        });
         
-        expect((new Num(3.67))->round(1)->get())
-            ->toEqual(3.7);
+        expect(_('a')->concat123('b')->get())->toBe('ab');
         
-        expect((new Num(-1.5))->round(0, PHP_ROUND_HALF_DOWN)->get())
-            ->toEqual(-1);
+        expect(_(1)->concat123('b')->get())->toBe('1b');
     }
     
 }

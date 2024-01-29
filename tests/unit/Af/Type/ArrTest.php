@@ -168,4 +168,14 @@ class ArrTest extends \Codeception\Test\Unit {
             ]])
         ;
     }
+    
+    public function testMin() {
+        expect((new Arr([4, 3, 5]))->min())->toBe(3);
+        expect((new Arr(['g' => 4, 'h' => 3, 'i' => 5]))->min())->toBe(3);
+    }
+    
+    public function testMax() {
+        expect((new Arr([4, 5, 2]))->max())->toBe(5);
+        expect((new Arr(['g' => 4, 'h' => 5, 'i' => 2]))->max())->toBe(5);
+    }
 }
