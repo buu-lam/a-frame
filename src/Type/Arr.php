@@ -160,4 +160,12 @@ class Arr extends Variable implements \Countable, \ArrayAccess, \IteratorAggrega
         $final = call_user_func_array($callback, $arrays);
         return $this->cloned($final);
     }
+    
+    public function min() : mixed {
+        return min($this->value);
+    }
+    
+     public function max() : mixed {
+        return max($this->value);
+    }
 }
