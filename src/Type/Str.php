@@ -2,7 +2,7 @@
 
 namespace Af\Type;
 
-class Str extends Variable {
+class Str extends Variable implements \ArrayAccess {
 
     use Format\Base64;
     use Format\Date;
@@ -11,6 +11,26 @@ class Str extends Variable {
     use Format\Search;
     use Format\Trim;
 
+    protected $value = '';
+    
+    public function offsetExists(mixed $offset): bool {
+        return isset($this->value[$offset]);
+    }
+    
+    public function offsetGet(mixed $offset): mixed {
+        return $this->value[$offset] ?? null;
+    }
+    
+    public function offsetSet(mixed $offset, mixed $value): void {
+        if (is_numeric($offset) || preg_match('~^(1-9)*$~')) {
+            $this->value[$offset] = $value;
+        }
+    }
+    
+    public function offsetUnset(mixed $offset): void {
+        unset($this->value[$offset]);
+    }
+    
     public function isValid($value): bool {
         if (is_string($value)) {
             return true;
