@@ -93,12 +93,12 @@ class Str extends Variable implements \ArrayAccess {
     }
 
     /**
-     * into Array by separator (explode alias)
-     * @param string $sep
+     * into Array by str length (explode alias)
+     * @param int $length = 1
      * @return \Af\Type\Arr
      */
-    public function split($sep): Arr {
-        return $this->explode($sep);
+    public function split($length = 1): Arr {
+        return $this->cloned(str_split($this->value, $length));
     }
 
     public function __toString() {
