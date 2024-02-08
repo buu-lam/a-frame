@@ -43,7 +43,8 @@ class StrTest extends \Codeception\Test\Unit {
     }
 
     public function testSplit() {
-        expect((new Str('AT-CR'))->split('-')->get())->toEqual(['AT', 'CR']);
+        expect((new Str('AT-CR'))->split()->get())->toEqual(['A', 'T', '-', 'C', 'R']);        
+        expect((new Str('AT-CR'))->split(2)->get())->toEqual(['AT', '-C', 'R']);
     }
     
     public function testToString() {

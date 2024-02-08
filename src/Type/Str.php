@@ -97,8 +97,9 @@ class Str extends Variable implements \ArrayAccess {
      * @param int $length = 1
      * @return \Af\Type\Arr
      */
-    public function split($length = 1): Arr {
-        return $this->cloned(str_split($this->value, $length));
+    public function split(int $length = 1): Arr {
+        assert($length >= 0);
+        return new Arr(str_split($this->value, $length));
     }
 
     public function __toString() {
