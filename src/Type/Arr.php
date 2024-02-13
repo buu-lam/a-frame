@@ -168,4 +168,29 @@ class Arr extends Variable implements \Countable, \ArrayAccess, \IteratorAggrega
     public function max() : mixed {
         return max($this->value);
     }
+    
+    public function sort() {
+        sort($this->value);
+        return $this;
+    }
+    
+    public function uSort($callback) {
+        usort($this->value, $callback);
+        return $this;
+    }
+    
+    public function forEach($callback, $arg = null) {
+        array_walk($this->value, $callback, $arg);
+        return $this;
+    }
+    
+    public function cherryPick(... $keys) {
+        $filteredKeys = is_array($keys[0]) ? $keys[0] : $keys;
+        $cherryPick = [];
+        // array_intersect_key + array_flip doesn't ensure the same keys order.
+        foreach ($filteredKeys as $filteredKey) {
+            $cherryPick[$filteredKey] = $this->value[$filteredKey];
+        }
+        return $this->cloned($cherryPick);
+    }
 }

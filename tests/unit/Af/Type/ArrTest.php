@@ -3,7 +3,7 @@
 namespace Af\Type;
 
 class ArrTest extends \Codeception\Test\Unit {
-    
+
     public function testOffset() {
         $array = ['a', 'b', 'c'];
         $arr = new Arr($array);
@@ -15,13 +15,13 @@ class ArrTest extends \Codeception\Test\Unit {
         unset($arr[3]);
         expect($arr[3])->toBeNull();
     }
-    
+
     public function testGetIterator() {
         $array = ['a', 'b', 'c'];
         $arr = new Arr($array);
         $keys = '';
         $values = '';
-        foreach($arr as $key => $value) {
+        foreach ($arr as $key => $value) {
             $keys .= $key;
             $values .= $value;
             expect($value)->toEqual(current($array));
@@ -31,7 +31,7 @@ class ArrTest extends \Codeception\Test\Unit {
         expect($keys)->toEqual('012');
         expect($values)->toEqual('abc');
     }
-    
+
     public function testExtract() {
         $arr = new Arr(['a' => 1, 'b' => 2]);
         list($b, $a) = $arr->extract('b', 'a');
@@ -62,7 +62,7 @@ class ArrTest extends \Codeception\Test\Unit {
         expect($arr->inArray('3'))->toBeTrue();
         expect($arr->inArray('3', true))->toBeFalse();
     }
-    
+
     public function testJoin() {
         $arr = new Arr(['a' => 'y', 'b' => 'e', 'c' => 's']);
         $joined = $arr->join('-');
@@ -90,7 +90,7 @@ class ArrTest extends \Codeception\Test\Unit {
         expect($arr->pop())->toBe(3);
         expect($arr->get())->toBe([1, 2]);
     }
- 
+
     public function testPush() {
         $arr = new Arr([1, 2, 3]);
         $arr->push(4);
@@ -98,12 +98,12 @@ class ArrTest extends \Codeception\Test\Unit {
         $arr->push(5, 6);
         expect($arr->get())->toBe([1, 2, 3, 4, 5, 6]);
     }
-    
+
     public function testSearch() {
         $arr = new Arr(['a', 'b', 'c', '12', 45 => 'specific-index', 'string-index' => 7]);
         expect($arr->search('a'))->toBe(0);
         expect($arr->search('b'))->toBe(1);
-        expect($arr->search('not-here'))->toBe(false);        
+        expect($arr->search('not-here'))->toBe(false);
         expect($arr->search(12))->toBe(3);
         expect($arr->search(12, false))->toBe(3);
         expect($arr->search('12', true))->toBe(3);
@@ -116,66 +116,105 @@ class ArrTest extends \Codeception\Test\Unit {
         expect($arr->shift())->toBe(1);
         expect($arr->get())->toBe([2, 3]);
     }
-    
+
     public function testUnique() {
         $arr = new Arr([2, 4, 1, 2, 3, 4, 5]);
         expect($arr->unique()->get())->toBe([0 => 2, 1 => 4, 2 => 1, 4 => 3, 6 => 5]);
     }
-    
-    
+
     public function testUnshift() {
         $arr = new Arr([3, 4]);
         $arr->unshift(1, 2);
         expect($arr->get())->toBe([1, 2, 3, 4]);
     }
-    
+
     public function testValues() {
         $arr = new Arr([0 => 2, 1 => 4, 2 => 1, 4 => 3, 6 => 5]);
         expect($arr->values()->get())->toBe([2, 4, 1, 3, 5]);
     }
-    
+
     public function testKeys() {
         $arr = new Arr([0 => 2, 1 => 4, 2 => 1, 4 => 3, 6 => 5]);
         expect($arr->keys()->get())->toBe([0, 1, 2, 4, 6]);
     }
-    
+
     public function testCombine() {
         expect((new Arr(['foo', 'bar']))->combine([0, 1])->get())->toBe(['foo' => 0, 'bar' => 1]);
         expect((new Arr(['foo', 'bar']))->combine((new Arr([0, 1])))->get())->toBe(['foo' => 0, 'bar' => 1]);
     }
-    
+
     public function testCount() {
         $arr = new Arr([0 => 2, 1 => 4, 2 => 1, 4 => 3, 6 => 5]);
         expect($arr->count())->toBe(5);
         expect(count($arr))->toBe(5);
     }
-    
+
     public function testMerge() {
         $arr1 = new Arr([1, 2, 3]);
         $arr2 = $arr1->merge([4, 5], [6, 7]);
         expect($arr2->get())->toBe([1, 2, 3, 4, 5, 6, 7]);
     }
-    
+
     public function testMergeRecursive() {
         $arr1 = new Arr(['a' => 1, 'b' => 2, 'c' => ['d' => 3]]);
         $arr2 = $arr1->mergeRecursive(['c' => ['e' => 4]]);
         expect($arr2->get())->toBe([
-            'a' => 1, 
-            'b' => 2, 
+            'a' => 1,
+            'b' => 2,
             'c' => [
                 'd' => 3,
                 'e' => 4
-            ]])
+        ]])
         ;
     }
-    
+
     public function testMin() {
         expect((new Arr([4, 3, 5]))->min())->toBe(3);
         expect((new Arr(['g' => 4, 'h' => 3, 'i' => 5]))->min())->toBe(3);
     }
-    
+
     public function testMax() {
         expect((new Arr([4, 5, 2]))->max())->toBe(5);
         expect((new Arr(['g' => 4, 'h' => 5, 'i' => 2]))->max())->toBe(5);
+    }
+
+    public function testSort() {
+        $arr = new Arr([4, 3, 5]);
+        expect($arr->sort()->get())->toBe([3, 4, 5]);
+        expect($arr->get())->toBe([3, 4, 5]);
+    }
+
+    public function testUSort() {
+        $arr = new Arr([
+            (object) ['a' => 3],
+            (object) ['a' => 2]
+        ]);
+        $array1 = $arr->usort(fn($o1, $o2) => $o1->a <=> $o2->a)->get();
+        $array2 = $arr->get();
+        expect($array1[0]->a)->toBe(2);
+        expect($array1[1]->a)->toBe(3);
+        expect($array2[0]->a)->toBe(2);
+        expect($array2[1]->a)->toBe(3);
+    }
+    
+    public function testForEach() {
+        $arr = new Arr([
+            (object) ['a' => 3],
+            (object) ['a' => 2]
+        ]);
+        $sum = 0;
+        $arr->forEach(function($o) use(&$sum) {
+            $sum += $o->a;
+        });
+        expect($sum)->toBe(5);
+    }
+    
+    public function testCherryPick() {
+        $arr = new Arr([
+            'c' => 0,
+            'b' => 1,
+            'd' => 2,
+        ]);
+        expect($arr->cherryPick('b', 'c')->get())->toBe(['b' => 1, 'c' => 0]);
     }
 }
