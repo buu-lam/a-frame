@@ -84,4 +84,9 @@ class StrTest extends \Codeception\Test\Unit {
         expect((new Str('12345'))->right(3)->get())->toBe('345');
         expect((new Str('12345'))->right()->get())->toBe('5');
     }
+    
+    public function testSubstr() {
+        expect((new Str('012345'))->substr(2, -1)->get())->toBe('234');
+        expect((new Str('012345'))->substr(3)->get())->toBe('345');
+    }
 }
