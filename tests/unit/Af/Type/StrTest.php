@@ -58,4 +58,30 @@ class StrTest extends \Codeception\Test\Unit {
         expect((new Str('{"foo": "bar"}'))->jsonDecode(true))->toBeArray();
     }
     
+    public function testPrependAndAliases() {
+        expect((new Str('12'))->prepend('0')->get())->toBe('012');
+        expect((new Str('12'))->prepend(new Str('0'))->get())->toBe('012');
+        
+        expect((new Str('12'))->prefix('0')->get())->toBe('012');
+    }
+    
+    public function testAppendAndAliases() {
+        expect((new Str('12'))->append('3')->get())->toBe('123');
+        expect((new Str('12'))->append(new Str('3'))->get())->toBe('123');
+        
+        
+        expect((new Str('12'))->dot('3')->get())->toBe('123');        
+        expect((new Str('12'))->concat('3')->get())->toBe('123');        
+        expect((new Str('12'))->suffix('3')->get())->toBe('123');
+    }
+    
+    public function testLeft() {
+        expect((new Str('12345'))->left(3)->get())->toBe('123');
+        expect((new Str('12345'))->left()->get())->toBe('1');
+    }
+    
+    public function testRight() {
+        expect((new Str('12345'))->right(3)->get())->toBe('345');
+        expect((new Str('12345'))->right()->get())->toBe('5');
+    }
 }

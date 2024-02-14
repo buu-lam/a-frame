@@ -109,4 +109,48 @@ class Str extends Variable implements \ArrayAccess {
     public function jsonDecode(bool $assoc = false, int $depth = 512, int $options = 0) {
         return json_decode($this->value, $assoc, $depth, $options);
     }
+    
+    public function prepend($string) {
+        return $this->cloned($string . $this->value);
+    }
+    
+    public function append($string) {
+        return $this->cloned($this->value. $string);
+    }
+    
+    /**
+     * alias
+     */
+    public function prefix($string) {
+        return $this->prepend($string);
+    }
+    
+    /**
+     * alias
+     */
+    public function dot($string) {        
+        return $this->append($string);
+    }
+    
+    /**
+     * alias
+     */
+    public function concat($string) {
+        return $this->append($string);
+    }
+    
+    /**
+     * alias
+     */
+    public function suffix($string) {
+        return $this->append($string);
+    }
+    
+    public function left(int $number = 1) {
+        return $this->cloned(substr($this->value, 0, $number));
+    }
+    
+    public function right(int $number = 1) {
+        return $this->cloned(substr($this->value, -$number));
+    }
 }
