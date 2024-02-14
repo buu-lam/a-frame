@@ -36,6 +36,12 @@ trait Search {
         );
     }
     
+    public function noExtension() {
+        return $this->cloned(
+                preg_replace('~\.([^.]+)$~', '', $this->value)
+        );
+    }
+    
     public function contains(string $string): bool {
         return str_contains($this->value, $string);
     }

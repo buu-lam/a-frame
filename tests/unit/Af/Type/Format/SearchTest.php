@@ -24,9 +24,20 @@ class SearchTest extends \Codeception\Test\Unit {
     
     public function testWithExtension() {
         $withExt = new Str('file.txt');
-        expect($str->withExtension('php')->get())->toBe('file.php');
+        expect($withExt->withExtension('php')->get())->toBe('file.php');
+        $with2Exts = new Str('file.inc.txt');
+        expect($with2Exts->withExtension('php')->get())->toBe('file.inc.php');
         $noExt = new Str('file');
         expect($noExt->withExtension('php')->get())->toBe('file.php');
+    }
+    
+    public function testNoExtension() {
+        $withExt = new Str('file.txt');
+        expect($withExt->noExtension()->get())->toBe('file');
+        $with2Exts = new Str('file.inc.txt');
+        expect($with2Exts->noExtension()->get())->toBe('file.inc');
+        $noExt = new Str('file');
+        expect($noExt->noExtension()->get())->toBe('file');
     }
     
     public function testContains() {
