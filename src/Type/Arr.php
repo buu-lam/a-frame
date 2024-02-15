@@ -4,6 +4,8 @@ namespace Af\Type;
 
 class Arr extends Variable implements \Countable, \ArrayAccess, \IteratorAggregate {
 
+    use Format\Sort;
+    
     protected $value = [];
 
     public function offsetExists(mixed $offset): bool {
@@ -172,21 +174,6 @@ class Arr extends Variable implements \Countable, \ArrayAccess, \IteratorAggrega
 
     public function max(): mixed {
         return max($this->value);
-    }
-
-    public function sort() {
-        sort($this->value);
-        return $this;
-    }
-
-    public function natSort() {
-        natsort($this->value);
-        return $this;
-    }
-
-    public function uSort($callback) {
-        usort($this->value, $callback);
-        return $this;
     }
 
     public function forEach($callback, $arg = null) {
