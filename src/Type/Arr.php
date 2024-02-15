@@ -9,11 +9,11 @@ class Arr extends Variable implements \Countable, \ArrayAccess, \IteratorAggrega
     public function offsetExists(mixed $offset): bool {
         return array_key_exists($offset, $this->value);
     }
-    
+
     public function offsetGet(mixed $offset): mixed {
         return $this->value[$offset] ?? null;
     }
-    
+
     public function offsetSet(mixed $offset, mixed $value): void {
         if (is_null($offset)) {
             $this->value[] = $value;
@@ -21,22 +21,21 @@ class Arr extends Variable implements \Countable, \ArrayAccess, \IteratorAggrega
             $this->value[$offset] = $value;
         }
     }
-    
+
     public function offsetUnset(mixed $offset): void {
         unset($this->value[$offset]);
     }
-    
+
     public function getIterator(): \Traversable {
         return new \ArrayIterator($this->value);
     }
-    
-    
+
     public function extract(...$keys) {
         return array_map(function ($key) {
             return $this->value[$key];
         }, $keys);
     }
-    
+
     public function filter($callback = null, $flag = 0) {
         return $this->cloned(array_filter($this->value, $callback, $flag));
     }
@@ -52,7 +51,7 @@ class Arr extends Variable implements \Countable, \ArrayAccess, \IteratorAggrega
     public function hasValue($item, bool $strict = false) {
         return in_array($item, $this->value, $strict);
     }
-    
+
     public function join($glue) {
         return $this->implode("$glue");
     }
@@ -60,7 +59,7 @@ class Arr extends Variable implements \Countable, \ArrayAccess, \IteratorAggrega
     public function keyExists($key) {
         return $this->hasKey($key);
     }
-    
+
     public function hasKey($key) {
         return array_key_exists($key, $this->value);
     }
@@ -82,6 +81,12 @@ class Arr extends Variable implements \Countable, \ArrayAccess, \IteratorAggrega
 
     public function search($needle, bool $strict = false) {
         return array_search($needle, $this->value, $strict);
+    }
+
+    public function slice(int $offset, ?int $length = null, bool $preserve_keys = false) {
+        return $this->cloned(
+                array_slice($this->value, $offset, $length, $preserve_keys)
+        );
     }
 
     public function shift() {
@@ -106,18 +111,18 @@ class Arr extends Variable implements \Countable, \ArrayAccess, \IteratorAggrega
     public function keys() {
         return $this->cloned(array_keys($this->value));
     }
-    
+
     public function combine($values) {
         return $this->cloned(array_combine(
-            $this->value, 
-            $values instanceof Variable ? $values->get() : $values
+                    $this->value,
+                    $values instanceof Variable ? $values->get() : $values
         ));
     }
-    
-    public function count() : int {
+
+    public function count(): int {
         return count($this->value);
     }
-    
+
     public function ensureHasKeys(...$keys) {
         foreach ($keys as $key) {
             if (!$this->hasKey($key)) {
@@ -125,7 +130,7 @@ class Arr extends Variable implements \Countable, \ArrayAccess, \IteratorAggrega
             }
         }
     }
-    
+
     public function ensureHasValues(...$values) {
         foreach ($values as $value) {
             if (!$this->hasValue($value)) {
@@ -141,49 +146,54 @@ class Arr extends Variable implements \Countable, \ArrayAccess, \IteratorAggrega
             }
         }
     }
-    
-    public function merge(... $arrays) {        
+
+    public function merge(... $arrays) {
         return $this->callWithArrays('array_merge', $arrays);
     }
-    
+
     public function mergeRecursive(... $arrays) {
         return $this->callWithArrays('array_merge_recursive', $arrays);
     }
-    
+
     public function replace(... $arrays) {
         return $this->callWithArrays('array_replace', $arrays);
     }
-    
+
     private function callWithArrays($callback, $arrs) {
         $arrays = $arrs;
-        array_unshift($arrays, $this->value);        
+        array_unshift($arrays, $this->value);
         $final = call_user_func_array($callback, $arrays);
         return $this->cloned($final);
     }
-    
-    public function min() : mixed {
+
+    public function min(): mixed {
         return min($this->value);
     }
-    
-    public function max() : mixed {
+
+    public function max(): mixed {
         return max($this->value);
     }
-    
+
     public function sort() {
         sort($this->value);
         return $this;
     }
-    
+
+    public function natSort() {
+        natsort($this->value);
+        return $this;
+    }
+
     public function uSort($callback) {
         usort($this->value, $callback);
         return $this;
     }
-    
+
     public function forEach($callback, $arg = null) {
         array_walk($this->value, $callback, $arg);
         return $this;
     }
-    
+
     public function cherryPick(... $keys) {
         $filteredKeys = is_array($keys[0]) ? $keys[0] : $keys;
         $cherryPick = [];

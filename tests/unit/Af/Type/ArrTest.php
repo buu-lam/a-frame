@@ -111,6 +111,16 @@ class ArrTest extends \Codeception\Test\Unit {
         expect($arr->search(7))->toBe('string-index');
     }
 
+    public function testSlice() {
+        $arr = new Arr([1, 2, 3, 4]);
+        expect($arr->slice(1, 2)->get())->toBe([2, 3]);        
+        expect($arr->slice(1)->get())->toBe([2, 3, 4]);       
+        expect($arr->slice(1, 2, true)->get())->toBe([1 => 2, 2 => 3]);
+        
+        $assoc = new Arr(['a' => 1, 'b' => 2, 'c' => 3, 'd' => 4]);
+        expect($assoc->slice(1, 2)->get())->toBe(['b' => 2, 'c' => 3]);  
+    }
+    
     public function testShift() {
         $arr = new Arr([1, 2, 3]);
         expect($arr->shift())->toBe(1);
@@ -184,6 +194,12 @@ class ArrTest extends \Codeception\Test\Unit {
         expect($arr->get())->toBe([3, 4, 5]);
     }
 
+    public function testNatSort() {
+        $arr = new Arr(['img11', 'img101', 'img2']);
+        expect($arr->natSort()->get())->toBe([2 => 'img2', 0 => 'img11', 1 => 'img101']);
+        expect($arr->get())->toBe([2 => 'img2', 0 => 'img11', 1 => 'img101']);
+    }
+    
     public function testUSort() {
         $arr = new Arr([
             (object) ['a' => 3],
