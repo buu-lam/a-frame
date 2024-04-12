@@ -14,6 +14,11 @@ trait Sort {
         return $this;
     }
     
+    public function kSort(int $flags = SORT_REGULAR) {
+        ksort($this->value, $flags);
+        return $this;
+    }
+    
     public function krSort(int $flags = SORT_REGULAR) {
         krsort($this->value, $flags);
         return $this;
