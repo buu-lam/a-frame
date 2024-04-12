@@ -23,7 +23,7 @@ class Variable {
 
     /**
      * 
-     * @param type $value
+     * @param mixed $value
      * @return boolean
      */
     public function isValid($value): bool {
