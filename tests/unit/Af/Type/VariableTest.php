@@ -14,6 +14,11 @@ class VariableTest extends \Codeception\Test\Unit {
         expect((new Variable)->get())->toBeNull();
         expect((new Variable(2))->get())->toEqual(2);
     }
+    
+    public function testInvoke() {
+        expect((new Variable)())->toBeNull();
+        expect((new Variable(2))())->toEqual(2);
+    }
 
     public function testSet() {
         expect((new Variable)->set(3)->get())->toEqual(3);

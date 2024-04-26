@@ -39,7 +39,11 @@ class Variable {
     public function get() {
         return $this->value;
     }
-
+ 
+    public function __invoke() {
+        return $this->value;
+    }
+    
     /**
      * 
      * @param mixed $value
