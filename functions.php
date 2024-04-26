@@ -25,7 +25,9 @@ namespace Af {
      * @return \Af\Type\Variable|\Af\Type\Str|\Af\Type\Arr|\Af\Type\Num
      */
     function _($value = null) {
-        if (is_string($value)) {
+        if ($value instanceof Type\Variable) {
+            return $value;
+        } else if (is_string($value)) {
             return new Type\Str($value);
         } else if (is_array($value)) {
             return new Type\Arr($value);
