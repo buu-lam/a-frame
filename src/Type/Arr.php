@@ -2,10 +2,13 @@
 
 namespace Af\Type;
 
+use Af\Plugin;
+
 class Arr extends Variable implements \Countable, \ArrayAccess, \IteratorAggregate {
 
     use Format\Sort;
-    
+    use Plugin\Arr;
+
     protected $value = [];
 
     public function offsetExists(mixed $offset): bool {

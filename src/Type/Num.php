@@ -2,7 +2,11 @@
 
 namespace Af\Type;
 
+use \Af\Plugin;
+
 class Num extends Variable {
+
+    use Plugin\Num;
 
     protected $value = 0;
 
@@ -17,7 +21,7 @@ class Num extends Variable {
                 round($this->value, $precision, $mode)
         );
     }
-    
+
     public function numPad($length) {
         return $this->str()->numPad($length);
     }

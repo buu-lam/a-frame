@@ -2,9 +2,12 @@
 
 namespace Af\Type;
 
+use \Af\Plugin;
+
 class Variable {
 
     use Register;
+    use Plugin\Variable;
 
     protected $type;
     protected $value;
@@ -39,11 +42,11 @@ class Variable {
     public function get() {
         return $this->value;
     }
- 
+
     public function __invoke() {
         return $this->value;
     }
-    
+
     /**
      * 
      * @param mixed $value

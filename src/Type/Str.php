@@ -2,6 +2,8 @@
 
 namespace Af\Type;
 
+use Af\Plugin;
+
 class Str extends Variable implements \ArrayAccess {
 
     use Format\Base64;
@@ -10,6 +12,7 @@ class Str extends Variable implements \ArrayAccess {
     use Format\Padding;
     use Format\Search;
     use Format\Trim;
+    use Plugin\Str;
 
     protected $value = '';
     
