@@ -87,9 +87,21 @@ class FileTest extends \Codeception\Test\Unit {
         $now = date('Y-m-d-H-i-s');
         $uniqid = uniqid($now);
         $path = "$tmp/a-frame-utests-$uniqid.txt";
-        $pathTo = "$tmp/a-frame-utests-$uniqid-2.txt";
+        $pathTo = "$tmp/a-frame-utests-$uniqid-to.txt";
         file_put_contents($path, 'ok');
         (new Str($path))->copyTo($pathTo);
         expect(file_get_contents($pathTo))->toBe('ok');
+        
+        $path1 = "$tmp/a-frame-utests-$uniqid-pattern-1.txt";
+        file_put_contents($path1, 'ok');
+        $path2 = "$tmp/a-frame-utests-$uniqid-pattern-2.txt";
+        file_put_contents($path2, 'ok');
+        
+        $pathPatternTo = "$tmp/a-frame-$uniqid";
+        mkdir($pathPatternTo);
+        
+        (new Str("$tmp/a-frame-utests-$uniqid-pattern-*.txt"))->copyTo($pathPatternTo);
+        expect(file_get_contents("$pathPatternTo/a-frame-utests-$uniqid-pattern-1.txt"))->toBe('ok');
+        expect(file_get_contents("$pathPatternTo/a-frame-utests-$uniqid-pattern-2.txt"))->toBe('ok');
     }
 }
