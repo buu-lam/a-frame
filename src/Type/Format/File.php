@@ -2,6 +2,7 @@
 
 namespace Af\Type\Format;
 
+use \Af\Type\Exception;
 use \Af\Type\Str;
 
 trait File {
