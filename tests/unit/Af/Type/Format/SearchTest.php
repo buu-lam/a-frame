@@ -16,6 +16,17 @@ class SearchTest extends \Codeception\Test\Unit {
         expect((new Str('test123'))->pregReplace('~\d{3}~', 'AAA')->get())->toEqual('testAAA');
     }
 
+    public function testPregReplaceCallbacks() {
+        expect((new Str('test123'))->pregReplaceCallbacks([
+            '~(\d)~' => function($m) {
+                return ($m[1] + 1);
+            },
+            '~[a-z]~' => function($m) {
+                return strtoupper($m[0]);
+            }
+        ])->get())->toEqual('TEST234');
+    }
+    
     public function testReplace() {
         $str = new Str('ah i like alives');
         expect($str->replace('a', 'o')->get())->toBe('oh i like olives');

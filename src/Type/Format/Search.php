@@ -17,6 +17,12 @@ trait Search {
                 preg_replace($search, $replace, $this->value)
         );
     }
+    
+    public function pregReplaceCallbacks($assoc, int $limit = -1, int &$count = null, int $flags = 0) {
+        return $this->cloned(
+                preg_replace_callback_array($assoc, $this->value, $limit, $count, $flags)
+        );
+    }
 
     public function replace($from, $to = null) {
         $hasAssoc = is_array($from) && !isset($to);
