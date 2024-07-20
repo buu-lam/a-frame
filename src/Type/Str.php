@@ -12,25 +12,25 @@ class Str extends Variable implements \ArrayAccess {
     use Format\Trim;
 
     protected $value = '';
-    
+
     public function offsetExists(mixed $offset): bool {
         return isset($this->value[$offset]);
     }
-    
+
     public function offsetGet(mixed $offset): mixed {
         return $this->value[$offset] ?? null;
     }
-    
+
     public function offsetSet(mixed $offset, mixed $value): void {
         if (is_numeric($offset) || preg_match('~^(1-9)*$~')) {
             $this->value[$offset] = $value;
         }
     }
-    
+
     public function offsetUnset(mixed $offset): void {
         unset($this->value[$offset]);
     }
-    
+
     public function isValid($value): bool {
         if (is_string($value)) {
             return true;
@@ -59,7 +59,7 @@ class Str extends Variable implements \ArrayAccess {
      */
     public function lcase(): Str {
         return $this->cloned(
-                mb_strtolower($this->value)
+                        mb_strtolower($this->value)
         );
     }
 
@@ -69,7 +69,7 @@ class Str extends Variable implements \ArrayAccess {
      */
     public function ucase(): Str {
         return $this->cloned(
-                mb_strtoupper($this->value)
+                        mb_strtoupper($this->value)
         );
     }
 
@@ -79,7 +79,7 @@ class Str extends Variable implements \ArrayAccess {
      */
     public function capitalize(): Str {
         return $this->cloned(
-                mb_convert_case($this->value, MB_CASE_TITLE)
+                        mb_convert_case($this->value, MB_CASE_TITLE)
         );
     }
 
@@ -109,52 +109,57 @@ class Str extends Variable implements \ArrayAccess {
     public function jsonDecode(bool $assoc = false, int $depth = 512, int $options = 0) {
         return json_decode($this->value, $assoc, $depth, $options);
     }
-    
+
     public function prepend($string) {
         return $this->cloned($string . $this->value);
     }
-    
+
     public function append($string) {
-        return $this->cloned($this->value. $string);
+        return $this->cloned($this->value . $string);
     }
-    
+
     /**
      * alias
      */
     public function prefix($string) {
         return $this->prepend($string);
     }
-    
+
     /**
      * alias
      */
-    public function dot($string) {        
+    public function dot($string) {
         return $this->append($string);
     }
-    
+
     /**
      * alias
      */
     public function concat($string) {
         return $this->append($string);
     }
-    
+
     /**
      * alias
      */
     public function suffix($string) {
         return $this->append($string);
     }
-    
+
     public function substr($offset, int $length = null) {
         return $this->cloned(substr($this->value, $offset, $length));
     }
-    
+
     public function left(int $number = 1) {
         return $this->cloned(substr($this->value, 0, $number));
     }
-    
+
     public function right(int $number = 1) {
         return $this->cloned(substr($this->value, -$number));
     }
+
+    public function length(): int {
+        return strlen($this->value);
+    }
+
 }

@@ -2,6 +2,7 @@
 
 namespace Af\Type\Format;
 
+use \Af\Type\Arr;
 use \Af\Type\Exception;
 use \Af\Type\Str;
 
@@ -87,5 +88,7 @@ trait File {
         return $this;
     }
     
-    
+    public function glob(int $flags = 0): Arr {
+        return new Arr(\glob($this->value, $flags));
+    }
 }

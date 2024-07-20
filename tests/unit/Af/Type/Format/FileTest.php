@@ -104,4 +104,22 @@ class FileTest extends \Codeception\Test\Unit {
         expect(file_get_contents("$pathPatternTo/a-frame-utests-$uniqid-pattern-1.txt"))->toBe('ok');
         expect(file_get_contents("$pathPatternTo/a-frame-utests-$uniqid-pattern-2.txt"))->toBe('ok');
     }
+    
+    public function testGlob() {
+        $tmpDir = sys_get_temp_dir() . uniqid('str-glob-');
+        mkdir($tmpDir);
+        touch("$tmpDir/test-1-1.txt");
+        touch("$tmpDir/test-1-2.txt");
+        mkdir("$tmpDir/test-dir");
+        
+        $files = (new Str("$tmpDir/test-1-*.txt"))->glob()->get();
+        
+        expect($files)->arrayToHaveCount(2);
+        expect($files)->arrayToContain("$tmpDir/test-1-1.txt");
+        expect($files)->arrayToContain("$tmpDir/test-1-2.txt");
+        
+        $dirs = (new Str("$tmpDir/*"))->glob(GLOB_ONLYDIR)->get();
+        expect($dirs)->arrayToHaveCount(1);
+        expect($dirs)->arrayToContain("$tmpDir/test-dir");
+    }
 }
