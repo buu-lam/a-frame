@@ -2,6 +2,8 @@
 
 namespace Af\Type\Format;
 
+use \Af\Type\Arr;
+use \Af\Type\Exception;
 use \Af\Type\Str;
 
 trait File {
@@ -73,9 +75,20 @@ trait File {
     
     
     public function copyTo($to, /*?resource*/ $context = null) {
-        copy($this->value, "$to", $context);
-        $this;
+        if (!$this->contains('*')) {
+            copy($this->value, "$to", $context);
+        } else if (is_dir("$to")) {
+            foreach(glob($this->value) as $path) {
+                $base = basename($path);
+                copy($path, "$to/$base", $context);
+            }
+        } else {
+            throw new Exception("value is a pattern, and '$to' is not a directory");
+        }
+        return $this;
     }
     
-    
+    public function glob(int $flags = 0): Arr {
+        return new Arr(\glob($this->value, $flags));
+    }
 }
