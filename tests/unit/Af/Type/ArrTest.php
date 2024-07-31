@@ -208,4 +208,28 @@ class ArrTest extends \Codeception\Test\Unit {
         ]);
         expect($arr->cherryPick('b', 'c')->get())->toBe(['b' => 1, 'c' => 0]);
     }
+    
+    public function testChunk() {
+        $arr = new Arr([
+            1, 2, 3, 4, 5
+        ]);
+        $chunks = $arr->chunk(2);
+        expect($chunks[0]())->toBe([1, 2]);
+        expect($chunks[1]())->toBe([3, 4]);
+        expect($chunks[2]())->toBe([5]);
+        $chunks = $arr->chunk(2, true);
+        expect($chunks[0]())->toBe([1, 2]);
+        expect($chunks[1]())->toBe([2 => 3, 3 => 4]);
+        expect($chunks[2]())->toBe([4 => 5]);
+    }
+    
+    public function testUnchunk() {
+        expect((new Arr([
+            [0, 1], [2, 3], [4]
+        ]))->unchunk()())->toBe([0, 1, 2, 3, 4]);
+        
+        expect((new Arr([
+            new Arr([0, 1]), new Arr([2, 3]), new Arr([4])
+        ]))->unchunk()())->toBe([0, 1, 2, 3, 4]);
+    }
 }

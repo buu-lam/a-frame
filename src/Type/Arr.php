@@ -193,4 +193,22 @@ class Arr extends Variable implements \Countable, \ArrayAccess, \IteratorAggrega
         }
         return $this->cloned($cherryPick);
     }
+    
+    public function chunk(int $length, bool $preserveKeys = false) {
+        return $this->cloned(
+            array_map(
+                fn($arr) => new Arr($arr),
+                array_chunk(
+                    $this->value, 
+                    $length, 
+                    $preserveKeys
+                )
+            )
+        );
+    }
+    
+    public function unchunk() {
+        $arrs = current($this->value) instanceof Arr ? $this->map(fn($a) => $a()) : $this->value;
+        return $this->cloned(array_merge([], ... $arrs));
+    }
 }
