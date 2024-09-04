@@ -122,4 +122,8 @@ class FileTest extends \Codeception\Test\Unit {
         expect($dirs)->arrayToHaveCount(1);
         expect($dirs)->arrayToContain("$tmpDir/test-dir");
     }
+    
+    public function testFileSize() {
+        expect((new Str('tests/_data/filesize.txt'))->fileSize())->toBe(9);
+    }
 }
