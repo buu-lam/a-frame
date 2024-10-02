@@ -38,6 +38,32 @@ namespace Af {
         }
     }
 
+    /**
+     * 
+     * @param string $value
+     * @return \Af\Type\Str
+     */
+    function str($value) {
+        return new Type\Str($value);
+    }
+    
+    /**
+     * 
+     * @param array $value
+     * @return \Af\Type\Arr
+     */
+    function arr($value) {
+        return new Type\Arr($value);
+    }
+    
+    /**
+     * 
+     * @param int|float $value
+     * @return \Af\Type\Num
+     */
+    function num($value) {
+        return new Type\Num($value);
+    }
 }
 
 
