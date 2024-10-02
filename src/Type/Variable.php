@@ -153,4 +153,13 @@ class Variable {
         $out = print_r($this->value, $return);
         return $return ? $out : $this;
     }
+
+    public function apply(callable $func) {
+        return $func($this);
+    }
+    
+    public function run(callable $func) {
+        $func->bindTo($this, $this)();
+        return $this;
+    }
 }
