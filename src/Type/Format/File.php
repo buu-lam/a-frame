@@ -89,6 +89,10 @@ trait File {
     }
     
     public function glob(int $flags = 0): Arr {
-        return new Arr(\glob($this->value, $flags));
+        return new Arr(glob($this->value, $flags));
+    }
+    
+    public function fileSize() {
+        return filesize($this->value);
     }
 }
