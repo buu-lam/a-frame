@@ -103,6 +103,11 @@ class FileTest extends \Codeception\Test\Unit {
         (new Str("$tmp/a-frame-utests-$uniqid-pattern-*.txt"))->copyTo($pathPatternTo);
         expect(file_get_contents("$pathPatternTo/a-frame-utests-$uniqid-pattern-1.txt"))->toBe('ok');
         expect(file_get_contents("$pathPatternTo/a-frame-utests-$uniqid-pattern-2.txt"))->toBe('ok');
+        
+        $dirTo = "$tmp/a-frame-$uniqid-dir-to";
+        mkdir($dirTo);
+        (new Str("$tmp/a-frame-utests-$uniqid-pattern-1.txt"))->copyTo($dirTo);
+        expect(file_get_contents("$dirTo/a-frame-utests-$uniqid-pattern-1.txt"))->toBe('ok');
     }
     
     public function testGlob() {

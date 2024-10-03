@@ -74,19 +74,26 @@ trait File {
     }
 
     public function copyTo($to, /* ?resource */ $context = null) {
-        if (!$this->contains('*')) {
+        $star = str_contains($this->value, '*');
+        $is_dir = is_dir("$to");        
+        if (!$is_dir && $star) {
+            throw new Exception("value is a pattern, and '$to' is not a directory");
+        } else if (!$is_dir && !$star) {
             copy($this->value, "$to", $context);
-        } else if (is_dir("$to")) {
-            foreach (glob($this->value) as $path) {
+        } else {
+            $paths = $star ? glob($this->value) : [$this->value];
+            foreach ($paths as $path) {
                 $base = basename($path);
                 copy($path, "$to/$base", $context);
             }
-        } else {
-            throw new Exception("value is a pattern, and '$to' is not a directory");
-        }
+        } 
         return $this;
     }
 
+    public function copyToDir($dir) {
+        assert(is_dir($dir));        
+    }
+    
     public function glob(int $flags = 0): Arr {
         return new Arr(glob($this->value, $flags));
     }
