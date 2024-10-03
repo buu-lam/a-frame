@@ -113,14 +113,14 @@ class ArrTest extends \Codeception\Test\Unit {
 
     public function testSlice() {
         $arr = new Arr([1, 2, 3, 4]);
-        expect($arr->slice(1, 2)->get())->toBe([2, 3]);        
-        expect($arr->slice(1)->get())->toBe([2, 3, 4]);       
+        expect($arr->slice(1, 2)->get())->toBe([2, 3]);
+        expect($arr->slice(1)->get())->toBe([2, 3, 4]);
         expect($arr->slice(1, 2, true)->get())->toBe([1 => 2, 2 => 3]);
-        
+
         $assoc = new Arr(['a' => 1, 'b' => 2, 'c' => 3, 'd' => 4]);
-        expect($assoc->slice(1, 2)->get())->toBe(['b' => 2, 'c' => 3]);  
+        expect($assoc->slice(1, 2)->get())->toBe(['b' => 2, 'c' => 3]);
     }
-    
+
     public function testShift() {
         $arr = new Arr([1, 2, 3]);
         expect($arr->shift())->toBe(1);
@@ -194,12 +194,12 @@ class ArrTest extends \Codeception\Test\Unit {
             (object) ['a' => 2]
         ]);
         $sum = 0;
-        $arr->forEach(function($o) use(&$sum) {
+        $arr->forEach(function ($o) use (&$sum) {
             $sum += $o->a;
         });
         expect($sum)->toBe(5);
     }
-    
+
     public function testCherryPick() {
         $arr = new Arr([
             'c' => 0,
@@ -208,7 +208,7 @@ class ArrTest extends \Codeception\Test\Unit {
         ]);
         expect($arr->cherryPick('b', 'c')->get())->toBe(['b' => 1, 'c' => 0]);
     }
-    
+
     public function testChunk() {
         $arr = new Arr([
             1, 2, 3, 4, 5
@@ -222,14 +222,24 @@ class ArrTest extends \Codeception\Test\Unit {
         expect($chunks[1]())->toBe([2 => 3, 3 => 4]);
         expect($chunks[2]())->toBe([4 => 5]);
     }
-    
+
     public function testUnchunk() {
         expect((new Arr([
-            [0, 1], [2, 3], [4]
-        ]))->unchunk()())->toBe([0, 1, 2, 3, 4]);
+                [0, 1], [2, 3], [4]
+                ]))->unchunk()())->toBe([0, 1, 2, 3, 4]);
+
+        expect((new Arr([
+                new Arr([0, 1]), new Arr([2, 3]), new Arr([4])
+                ]))->unchunk()())->toBe([0, 1, 2, 3, 4]);
+    }
+
+    public function testFind() {
+        expect((new Arr([
+            4, 5, 6
+        ]))->find(fn($num) => $num > 5))->toBe(6);
         
         expect((new Arr([
-            new Arr([0, 1]), new Arr([2, 3]), new Arr([4])
-        ]))->unchunk()())->toBe([0, 1, 2, 3, 4]);
+            4, 5, 6
+        ]))->find(fn($num) => $num < 3))->toBe(null);
     }
 }

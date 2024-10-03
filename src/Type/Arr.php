@@ -41,8 +41,22 @@ class Arr extends Variable implements \Countable, \ArrayAccess, \IteratorAggrega
         }, $keys);
     }
 
-    public function filter($callback = null, $flag = 0) {
-        return $this->cloned(array_filter($this->value, $callback, $flag));
+    public function filter($func = null, $flag = 0) {
+        return $this->cloned(array_filter($this->value, $func, $flag));
+    }
+
+    public function find($func) {
+        return function_exists('array_find') ?
+            array_find($this->value, $func) :
+            (function () use ($func) {
+                foreach ($this->value as $val) {
+                    if ($func($val)) {
+                        return $val;
+                    }
+                }
+                return null;
+            })()
+        ;
     }
 
     public function implode($glue) {
@@ -69,8 +83,8 @@ class Arr extends Variable implements \Countable, \ArrayAccess, \IteratorAggrega
         return array_key_exists($key, $this->value);
     }
 
-    public function map($callback) {
-        return $this->cloned(array_map($callback, $this->value));
+    public function map($func) {
+        return $this->cloned(array_map($func, $this->value));
     }
 
     public function pop() {
@@ -164,10 +178,10 @@ class Arr extends Variable implements \Countable, \ArrayAccess, \IteratorAggrega
         return $this->callWithArrays('array_replace', $arrays);
     }
 
-    private function callWithArrays($callback, $arrs) {
+    private function callWithArrays($func, $arrs) {
         $arrays = $arrs;
         array_unshift($arrays, $this->value);
-        $final = call_user_func_array($callback, $arrays);
+        $final = call_user_func_array($func, $arrays);
         return $this->cloned($final);
     }
 
@@ -179,34 +193,34 @@ class Arr extends Variable implements \Countable, \ArrayAccess, \IteratorAggrega
         return max($this->value);
     }
 
-    public function forEach($callback, $arg = null) {
-        array_walk($this->value, $callback, $arg);
+    public function forEach($func, $arg = null) {
+        array_walk($this->value, $func, $arg);
         return $this;
     }
 
     public function cherryPick(... $keys) {
         $filteredKeys = is_array($keys[0]) ? $keys[0] : $keys;
         $cherryPick = [];
-        // array_intersect_key + array_flip doesn't ensure the same keys order.
+// array_intersect_key + array_flip doesn't ensure the same keys order.
         foreach ($filteredKeys as $filteredKey) {
             $cherryPick[$filteredKey] = $this->value[$filteredKey];
         }
         return $this->cloned($cherryPick);
     }
-    
+
     public function chunk(int $length, bool $preserveKeys = false) {
         return $this->cloned(
-            array_map(
-                fn($arr) => new Arr($arr),
-                array_chunk(
-                    $this->value, 
-                    $length, 
-                    $preserveKeys
+                array_map(
+                    fn($arr) => new Arr($arr),
+                    array_chunk(
+                        $this->value,
+                        $length,
+                        $preserveKeys
+                    )
                 )
-            )
         );
     }
-    
+
     public function unchunk() {
         $arrs = current($this->value) instanceof Arr ? $this->map(fn($a) => $a()) : $this->value;
         return $this->cloned(array_merge([], ... $arrs));
