@@ -81,7 +81,7 @@ trait File {
         } else if (!$is_dir && !$star) {
             copy($this->value, "$to", $context);
         } else {
-            $paths = $star ? glob($this->value) : [$this->value];
+            $paths = $star ? glob($this->value, str_contains($this->value, '{') ? GLOB_BRACE : 0) : [$this->value];
             foreach ($paths as $path) {
                 $base = basename($path);
                 copy($path, "$to/$base", $context);
