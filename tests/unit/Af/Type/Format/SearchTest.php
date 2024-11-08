@@ -13,10 +13,10 @@ class SearchTest extends \Codeception\Test\Unit {
     }
     
     public function testPregPick() {
-        expect((new Str('test123'))->pregPick('~\d(\d)\d~'))->toEqual('123');
-        expect((new Str('test123'))->pregPick('~\d(\d)\d~', 1))->toEqual('2');
-        expect((new Str('test123'))->pregPick('~\d{4}~'))->toEqual('');
-        expect((new Str('test123'))->pregPick('~\d(\d)\d{2}~', 1))->toEqual('');
+        expect((new Str('test123'))->pregPick('~\d(\d)\d~')())->toEqual('123');
+        expect((new Str('test123'))->pregPick('~\d(\d)\d~', 1)())->toEqual('2');
+        expect((new Str('test123'))->pregPick('~\d{4}~')())->toEqual('');
+        expect((new Str('test123'))->pregPick('~\d(\d)\d{2}~', 1)())->toEqual('');
     }
     
     public function testPregReplace() {
