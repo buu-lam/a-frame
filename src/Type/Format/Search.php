@@ -7,6 +7,10 @@ trait Search {
     public function pregMatch(string $pattern, array &$matches = null, int $flags = 0, int $offset = 0) {
         return preg_match($pattern, $this->value, $matches, $flags, $offset);
     }
+    
+    public function pregPick(string $pattern, int $matcher = 0, int $flags = 0, int $offset = 0) {
+        return preg_match($pattern, $this->value, $matches, $flags, $offset) ? $matches[$matcher] : '';
+    }
 
     public function pregReplace($from, $to = null) {
         $hasAssoc = is_array($from) && !isset($to);
