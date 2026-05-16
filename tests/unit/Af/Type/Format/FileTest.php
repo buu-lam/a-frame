@@ -117,20 +117,33 @@ class FileTest extends \Codeception\Test\Unit {
         touch("$tmpDir/test-1-2.txt");
         mkdir("$tmpDir/test-dir");
         
-        $files = (new Str("$tmpDir/test-1-*.txt"))->glob()->get();
-        
-        expect($files)->arrayToHaveCount(2);
-        expect($files)->arrayToContain("$tmpDir/test-1-1.txt");
-        expect($files)->arrayToContain("$tmpDir/test-1-2.txt");
-        
-        $dirs = (new Str("$tmpDir/*"))->glob(GLOB_ONLYDIR)->get();
-        expect($dirs)->arrayToHaveCount(1);
-        expect($dirs)->arrayToContain("$tmpDir/test-dir");
-        
-        // Cleanup
-        array_map('unlink', glob("$tmpDir/*"));
-        rmdir("$tmpDir/test-dir");
-        rmdir($tmpDir);
+        try {
+            $files = (new Str("$tmpDir/test-1-*.txt"))->glob()->get();
+            
+            expect($files)->arrayToHaveCount(2);
+            expect($files)->arrayToContain("$tmpDir/test-1-1.txt");
+            expect($files)->arrayToContain("$tmpDir/test-1-2.txt");
+            
+            $dirs = (new Str("$tmpDir/*"))->glob(GLOB_ONLYDIR)->get();
+            expect($dirs)->arrayToHaveCount(1);
+            expect($dirs)->arrayToContain("$tmpDir/test-dir");
+        } finally {
+            // Recursive cleanup
+            $this->removeDirectory($tmpDir);
+        }
+    }
+
+    private function removeDirectory($dir) {
+        if (is_dir($dir)) {
+            $files = scandir($dir);
+            foreach ($files as $file) {
+                if ($file !== '.' && $file !== '..') {
+                    $path = "$dir/$file";
+                    is_dir($path) ? $this->removeDirectory($path) : unlink($path);
+                }
+            }
+            rmdir($dir);
+        }
     }
     
     public function testFileSize() {
