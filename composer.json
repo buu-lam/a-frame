@@ -18,7 +18,13 @@
         "codeception/module-phpbrowser": "^3.0",
         "codeception/module-asserts": "^3.0",
         "codeception/assert-throws": "^1.5",
-        "phpspec/prophecy-phpunit": "^2.2"
+        "phpspec/prophecy-phpunit": "^2.2",
+        "phpunit/phpunit": "^11.5"
+    },
+    "config": {
+        "platform": {
+            "php": "8.2.0"
+        }
     },
     "autoload": {
         "psr-4": {
