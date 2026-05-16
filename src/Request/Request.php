@@ -22,45 +22,41 @@ class Request implements \ArrayAccess, \Iterator {
         $this->value = &$value;
     }
 
-    public function offsetExists($offset): bool {
+    public function offsetExists(mixed $offset): bool {
         return isset($this->value[$offset]);
     }
 
-    public function offsetGet($offset) {
+    public function offsetGet(mixed $offset): mixed {
         return $this->value[$offset];
     }
 
-    public function offsetSet($offset, $value): void {
+    public function offsetSet(mixed $offset, mixed $value): void {
         $this->value[$offset] = $value;
     }
 
-    public function offsetUnset($offset): void {
+    public function offsetUnset(mixed $offset): void {
         unset($this->value[$offset]);
     }
 
-    public function rewind() {
+    public function rewind(): void {
         reset($this->value);
     }
 
-    public function current() {
-        $var = current($this->value);
-        return $var;
+    public function current(): mixed {
+        return current($this->value);
     }
 
-    public function key() {
-        $var = key($this->value);
-        return $var;
+    public function key(): mixed {
+        return key($this->value);
     }
 
-    public function next() {
-        $var = next($this->value);
-        return $var;
+    public function next(): void {
+        next($this->value);
     }
 
-    public function valid() {
+    public function valid(): bool {
         $key = key($this->value);
-        $var = ($key !== NULL && $key !== FALSE);
-        return $var;
+        return $key !== null && $key !== false;
     }
 
     public function get($name) {

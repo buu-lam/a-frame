@@ -4,7 +4,10 @@ namespace Af\Type\Format;
 
 trait Search {
 
-    public function pregMatch(string $pattern, array &$matches = null, int $flags = 0, int $offset = 0) {
+    public function pregMatch(string $pattern, ?array &$matches = null, int $flags = 0, int $offset = 0) {
+        if ($matches === null) {
+            return preg_match($pattern, $this->value, flags: $flags, offset: $offset);
+        }
         return preg_match($pattern, $this->value, $matches, $flags, $offset);
     }
     
@@ -26,10 +29,11 @@ trait Search {
         );
     }
     
-    public function pregReplaceCallbacks($assoc, int $limit = -1, int &$count = null, int $flags = 0) {
-        return $this->cloned(
-                preg_replace_callback_array($assoc, $this->value, $limit, $count, $flags)
-        );
+    public function pregReplaceCallbacks($assoc, int $limit = -1, ?int &$count = null, int $flags = 0) {
+        $replaced = $count === null
+            ? preg_replace_callback_array($assoc, $this->value, $limit, flags: $flags)
+            : preg_replace_callback_array($assoc, $this->value, $limit, $count, $flags);
+        return $this->cloned($replaced);
     }
 
     public function replace($from, $to = null) {

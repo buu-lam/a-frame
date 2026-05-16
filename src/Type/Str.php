@@ -149,7 +149,7 @@ class Str extends Variable implements \ArrayAccess {
         return $this->append($string);
     }
 
-    public function substr($offset, int $length = null) {
+    public function substr($offset, ?int $length = null) {
         return $this->cloned(substr($this->value, $offset, $length));
     }
 
