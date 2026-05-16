@@ -126,6 +126,11 @@ class FileTest extends \Codeception\Test\Unit {
         $dirs = (new Str("$tmpDir/*"))->glob(GLOB_ONLYDIR)->get();
         expect($dirs)->arrayToHaveCount(1);
         expect($dirs)->arrayToContain("$tmpDir/test-dir");
+        
+        // Cleanup
+        array_map('unlink', glob("$tmpDir/*"));
+        rmdir("$tmpDir/test-dir");
+        rmdir($tmpDir);
     }
     
     public function testFileSize() {
